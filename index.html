@@ -49,8 +49,7 @@
       resposta.value = "Gerando script... Aguarde...";
 
       try {
-        const respostaApi = await fetch("https://CyberDangerousShell.claudiamariamat.repl.co/api/script", { ... })
-
+        const respostaApi = await fetch("https://cyberdangerousshell.claudiamariamat.repl.co/api/script", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ prompt })
