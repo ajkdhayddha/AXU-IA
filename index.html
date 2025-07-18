@@ -1,4 +1,4 @@
-index.html <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -11,7 +11,6 @@ index.html <!DOCTYPE html>
       text-align: center;
       padding: 50px;
     }
-
     input, button, textarea {
       width: 80%;
       max-width: 600px;
@@ -22,18 +21,15 @@ index.html <!DOCTYPE html>
       font-size: 16px;
       font-family: monospace;
     }
-
     input, textarea {
       background: #222;
       color: #00ffcc;
     }
-
     button {
       background: #00ffaa;
       color: black;
       cursor: pointer;
     }
-
     textarea {
       height: 300px;
       resize: none;
@@ -52,14 +48,23 @@ index.html <!DOCTYPE html>
       const resposta = document.getElementById('resposta');
       resposta.value = "Gerando script... Aguarde...";
 
-      const respostaApi = await fetch("http://localhost:3000/api/script", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt })
-      });
+      try {
+        const respostaApi = await fetch("https://CyberDangerousShell.claudiamariamat.repl.co/api/script", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt })
+        });
 
-      const dados = await respostaApi.json();
-      resposta.value = dados.script || "Erro ao gerar o script.";
+        if (!respostaApi.ok) {
+          resposta.value = `Erro na requisição: ${respostaApi.status}`;
+          return;
+        }
+
+        const dados = await respostaApi.json();
+        resposta.value = dados.script || "Erro ao gerar o script.";
+      } catch (error) {
+        resposta.value = "Erro ao conectar com o servidor.";
+      }
     }
   </script>
 </body>
