@@ -1,69 +1,55 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Roblox Script IA</title>
+  <meta charset="UTF-8">
+  <title>Script AI Roblox</title>
   <style>
     body {
-      background-color: #111;
-      color: #00ffcc;
-      font-family: monospace;
-      text-align: center;
-      padding: 50px;
+      background: #0f0f0f;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
     }
-    input, button, textarea {
-      width: 80%;
-      max-width: 600px;
-      padding: 12px;
-      margin: 10px;
-      border: none;
-      border-radius: 8px;
+    textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
       font-size: 16px;
-      font-family: monospace;
     }
-    input, textarea {
-      background: #222;
-      color: #00ffcc;
-    }
-    button {
-      background: #00ffaa;
-      color: black;
-      cursor: pointer;
-    }
-    textarea {
-      height: 300px;
-      resize: none;
+    pre {
+      background: #1e1e1e;
+      padding: 10px;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
   </style>
 </head>
 <body>
-  <h1>🤖 Roblox Script AI</h1>
-  <input id="prompt" placeholder="Ex: Crie um script que mata o jogador ao tocar..." />
+  <h1>🧠 Gerador de Scripts Roblox</h1>
+  <textarea id="prompt" placeholder="Descreva seu script Roblox aqui..."></textarea>
   <button onclick="gerarScript()">Gerar Script</button>
-  <textarea id="resposta" readonly placeholder="O script aparecerá aqui..."></textarea>
+  <h2>🧾 Resultado:</h2>
+  <pre id="resultado">...</pre>
 
   <script>
     async function gerarScript() {
-      const prompt = document.getElementById('prompt').value;
-      const resposta = document.getElementById('resposta');
-      resposta.value = "Gerando script... Aguarde...";
+      const prompt = document.getElementById("prompt").value;
+      const resultado = document.getElementById("resultado");
+      resultado.textContent = "⏳ Gerando script...";
 
       try {
-        const respostaApi = await fetch("https://cyberdangerousshell.claudiamariamat.repl.co/api/script", {
+        const resposta = await fetch("https://api143-3.onrender.com/api/script", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json"
+          },
           body: JSON.stringify({ prompt })
         });
 
-        if (!respostaApi.ok) {
-          resposta.value = `Erro na requisição: ${respostaApi.status}`;
-          return;
-        }
-
-        const dados = await respostaApi.json();
-        resposta.value = dados.script || "Erro ao gerar o script.";
-      } catch (error) {
-        resposta.value = "Erro ao conectar com o servidor.";
+        const json = await resposta.json();
+        resultado.textContent = json.script || "❌ Erro: Resposta vazia.";
+      } catch (erro) {
+        resultado.textContent = "❌ Erro ao conectar com a API.";
       }
     }
   </script>
