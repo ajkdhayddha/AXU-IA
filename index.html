@@ -1,0 +1,66 @@
+index.html <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Roblox Script IA</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #00ffcc;
+      font-family: monospace;
+      text-align: center;
+      padding: 50px;
+    }
+
+    input, button, textarea {
+      width: 80%;
+      max-width: 600px;
+      padding: 12px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: monospace;
+    }
+
+    input, textarea {
+      background: #222;
+      color: #00ffcc;
+    }
+
+    button {
+      background: #00ffaa;
+      color: black;
+      cursor: pointer;
+    }
+
+    textarea {
+      height: 300px;
+      resize: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🤖 Roblox Script AI</h1>
+  <input id="prompt" placeholder="Ex: Crie um script que mata o jogador ao tocar..." />
+  <button onclick="gerarScript()">Gerar Script</button>
+  <textarea id="resposta" readonly placeholder="O script aparecerá aqui..."></textarea>
+
+  <script>
+    async function gerarScript() {
+      const prompt = document.getElementById('prompt').value;
+      const resposta = document.getElementById('resposta');
+      resposta.value = "Gerando script... Aguarde...";
+
+      const respostaApi = await fetch("http://localhost:3000/api/script", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+
+      const dados = await respostaApi.json();
+      resposta.value = dados.script || "Erro ao gerar o script.";
+    }
+  </script>
+</body>
+</html>
